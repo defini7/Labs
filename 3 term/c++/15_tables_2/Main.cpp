@@ -1,5 +1,23 @@
 #include "Main.hpp"
 
+void ResetTableCell(QTableWidget* table, int row, int col, double value, bool editable)
+{
+    QTableWidgetItem* item = table->item(row, col);
+
+    QString valueStr = QString::number(value);
+
+    if (item)
+        item->setText(valueStr);
+    else
+    {
+        item = new QTableWidgetItem(valueStr);
+        table->setItem(row, col, item);
+    }
+
+    if (!editable)
+        item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+}
+
 MainWindow::MainWindow() : QMainWindow(nullptr)
 {
     setWindowTitle("Tables");
@@ -31,6 +49,11 @@ MainWindow::MainWindow() : QMainWindow(nullptr)
     QMenu* general = mb->addMenu("General");
     QAction* resizeAct = general->addAction("Resize");
 
+    QObject::connect(resizeAct, &QAction::triggered, this, [this]()
+        {
+            emit OnResizeTrigger();
+        });
+
     resize(800, 600);
 
     setCentralWidget(central);
@@ -41,13 +64,20 @@ MainWindow::MainWindow() : QMainWindow(nullptr)
     m_OutputTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     m_OutputTable->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
-    connect(resizeAct, &QAction::triggered, [&](bool)
-    {
-        m_InputDialog.show();
-    });
-
-    QObject::connect(&m_InputDialog, &InputConfigDialog::Submitted, this, &MainWindow::PopulateMatrices);
     QObject::connect(m_ExecuteBtn, &QPushButton::clicked, this, &MainWindow::GenerateOutput);
+}
+
+void MainWindow::FillTablesRandomly(double min, double max)
+{
+    int width = m_InputTable->columnCount();
+    int height = m_InputTable->rowCount();
+
+    for (int row = 0; row < height; row++)
+        for (int col = 0; col < width; col++)
+        {
+            ResetTableCell(m_InputTable, row, col, QRandomGenerator::global()->bounded(max - min) + min);
+            ResetTableCell(m_OutputTable, row, col, 0.0, false);
+        }
 }
 
 void MainWindow::PopulateMatrices(int width, int height, bool randomly)
@@ -58,54 +88,19 @@ void MainWindow::PopulateMatrices(int width, int height, bool randomly)
     m_OutputTable->setColumnCount(width);
     m_OutputTable->setRowCount(height);
 
-    auto clear = [](QTableWidget* table, int row, int col, double value, bool editable = true)
-    {
-        QTableWidgetItem* item = table->item(row, col);
-
-        QString valueStr = QString::number(value);
-
-        if (item)
-            item->setText(valueStr);
-        else
-        {
-            item = new QTableWidgetItem(valueStr);
-            table->setItem(row, col, item);
-        }
-
-        if (!editable)
-            item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-    };
-
     if (randomly)
-    {
-        m_InputRange.show();
-
-        if (m_InputRange.exec() == QDialog::Accepted)
-        {
-            double min = m_InputRange.GetMin();
-            double max = m_InputRange.GetMax();
-
-            for (int row = 0; row < height; row++)
-                for (int col = 0; col < width; col++)
-                {
-                    clear(m_InputTable, row, col, QRandomGenerator::global()->bounded(max - min) + min);
-                    clear(m_OutputTable, row, col, 0.0, false);
-                }
-        }
-
-        m_InputRange.hide();
-    }
+        emit OnRandomTrigger();
     else
     {
         for (int row = 0; row < height; row++)
             for (int col = 0; col < width; col++)
             {
-                clear(m_InputTable, row, col, 0.0);
-                clear(m_OutputTable, row, col, 0.0, false);
+                ResetTableCell(m_InputTable, row, col, 0.0);
+                ResetTableCell(m_OutputTable, row, col, 0.0, false);
             }
     }
 
-    m_InputDialog.hide();
+    emit OnResizeHide();
 }
 
 void MainWindow::GenerateOutput()
