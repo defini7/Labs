@@ -9,10 +9,9 @@ if (row1 < 1 or row1 > 8 or
         row2 < 1 or row2 > 8 or
         col2 < 1 or col2 > 8):
     print('Одно из введеных значений меньше 1 или больше 8')
-    exit(1)
-
-if row1 == row2 or col1 == col2:
-    print('YES')
 else:
-    print('NO')
+    if row1 == row2 or col1 == col2:
+        print('YES')
+    else:
+        print('NO')
 
