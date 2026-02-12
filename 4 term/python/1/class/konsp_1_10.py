@@ -1,12 +1,12 @@
-a1 = int(input('a_1: '))
-b1 = int(input('b_1: '))
+a1 = float(input('a_1: '))
+b1 = float(input('b_1: '))
 
 if a1 > b1:
     print('Ошибка: a1 > b1')
     exit(1)
 
-a2 = int(input('a_2: '))
-b2 = int(input('b_2: '))
+a2 = float(input('a_2: '))
+b2 = float(input('b_2: '))
 
 if a2 > b2:
     print('Ошибка: a2 > b2')
