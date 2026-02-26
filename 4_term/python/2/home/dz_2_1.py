@@ -1,6 +1,6 @@
 raw_ips = {} # (ip, [connected, count])
 
-with open('loginfo.txt') as logs:
+with open('1.txt') as logs:
     for line in logs:
         start = line.find(' ', line.find(' ') + 1) + 1
         end = line.find(' ', start)

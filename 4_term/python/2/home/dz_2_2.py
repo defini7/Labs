@@ -6,7 +6,7 @@ with open('complex.txt') as file:
 
 old_nums = nums[:]
 
-nums.sort(key=lambda z: abs(z))
+nums.sort(key=abs)
 
 print('Старые:', old_nums)
 print('Новые:', nums)
