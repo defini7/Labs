@@ -51,6 +51,7 @@ class DrillingRig(Asset):
         """
 
         super().__init__(name, location)
+        
         self._depth_capacity = depth_capacity
         self.__current_depth = current_depth
         self.power = power
@@ -59,10 +60,14 @@ class DrillingRig(Asset):
     
     def drill(self, meters: int) -> str:
         """Увеличивает текущую глубину бурения."""
+
         new_depth = self.__current_depth + meters
+
         if new_depth > self._depth_capacity:
             return f"Ошибка: превышение максимальной глубины ({self._depth_capacity} м)"
+        
         self.__current_depth = new_depth
+
         return f"Пробурено {meters} м. Текущая глубина: {self.__current_depth} м"
     
 
