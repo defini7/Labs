@@ -1,0 +1,56 @@
+table_name,column_name,sql_type,unit,nullable,description
+car_types,car_type_id,INTEGER,—,NO,Идентификатор типа вагона
+car_types,car_type_name,VARCHAR(100),—,NO,Наименование типа вагона
+car_types,max_weight_tons,"DECIMAL(10,2)",тонна,NO,Максимальная масса груза
+dislocations,dislocation_id,BIGINT,—,NO,Идентификатор записи о местоположении
+dislocations,station_id,CHAR(6),—,NO,Код станции
+dislocations,is_loaded,BOOLEAN,—,YES,Признак загруженного вагона
+dislocations,cars_count,INTEGER,вагон,NO,Количество вагонов
+dislocations,car_type_id,INTEGER,—,NO,Тип вагона
+dislocations,period_number,INTEGER,условный период,NO,Номер периода наблюдения
+dislocations,wait_time_range,VARCHAR(50),условный период,NO,Диапазон времени ожидания
+orders,order_id,BIGINT,—,NO,Идентификатор заказа
+orders,station_from_id,CHAR(6),—,NO,Станция отправления
+orders,station_to_id,CHAR(6),—,NO,Станция назначения
+orders,revenue_per_car_rub,"DECIMAL(14,2)",рубль/вагон,NO,Доход на один вагон
+orders,cars_required,INTEGER,вагон,NO,Требуемое количество вагонов
+orders,escort_required,BOOLEAN,—,YES,Требуется ли вагон сопровождения
+orders,load_time_hours_per_car,"DECIMAL(8,2)",час/вагон,NO,Время загрузки одного вагона
+orders,unload_time_hours_per_car,"DECIMAL(8,2)",час/вагон,NO,Время разгрузки одного вагона
+orders,must_do,BOOLEAN,—,NO,Признак обязательного выполнения
+orders,created_at,TIMESTAMP,дата и время,NO,Дата и время создания заказа
+orders,canceled_at,TIMESTAMP,дата и время,YES,Дата и время отмены заказа
+routes,route_id,BIGINT,—,NO,Идентификатор маршрута
+routes,station_from_id,CHAR(6),—,NO,Начальная станция
+routes,station_to_id,CHAR(6),—,NO,Конечная станция
+routes,avg_cost_rub,"DECIMAL(14,2)",рубль,NO,Средняя стоимость маршрута
+routes,max_cars,INTEGER,вагон,YES,Максимальное количество вагонов на маршруте
+routes,opening_date,DATE,дата,NO,Дата открытия маршрута
+stations,station_id,CHAR(6),—,NO,Код станции
+stations,station_name,VARCHAR(255),—,NO,Название станции
+stations,min_cars,INTEGER,вагон,NO,Минимальное количество вагонов
+stations,max_cars,INTEGER,вагон,NO,Максимальное количество вагонов
+station_roads,station_id,CHAR(6),—,NO,Код станции
+station_roads,road_id,INTEGER,—,NO,Идентификатор железной дороги
+station_road_info,road_name,VARCHAR(255),—,NO,Название железной дороги из исходного справочника
+station_road_info,station_id,CHAR(6),—,NO,Код станции
+station_departments,station_id,CHAR(6),—,NO,Код станции
+station_departments,department_id,INTEGER,—,NO,Идентификатор отделения
+departments,department_id,INTEGER,—,NO,Идентификатор отделения
+departments,department_name,VARCHAR(255),—,NO,Название отделения
+roads,road_id,INTEGER,—,NO,Идентификатор железной дороги
+roads,road_name,VARCHAR(255),—,NO,Название железной дороги
+order_controls,birth_date,DATE,дата,YES,Дата рождения контролирующего сотрудника
+order_controls,address,VARCHAR(255),—,YES,Адрес контролирующего сотрудника
+order_controls,pass_id,CHAR(6),—,NO,Номер пропуска сотрудника
+order_controls,order_id,BIGINT,—,NO,Идентификатор контролируемого заказа
+persons,surname,VARCHAR(100),—,NO,Фамилия сотрудника
+persons,first_name,VARCHAR(100),—,NO,Имя сотрудника
+persons,middle_name,VARCHAR(100),—,YES,Отчество сотрудника
+persons,pass_id,CHAR(6),—,YES,Номер пропуска сотрудника
+persons,sex,CHAR(1),—,YES,Пол сотрудника
+persons,supervisor_id,CHAR(6),—,YES,Номер пропуска руководителя; 0 означает NULL
+route_repairs,route_id,BIGINT,—,NO,Идентификатор маршрута
+route_repairs,price_rub,"DECIMAL(14,2)",рубль,YES,Стоимость ремонта; поле содержит учебные аномалии
+route_repairs,person_ids,ARRAY,—,YES,Номера контролирующих сотрудников; возможен список через запятую
+route_repairs,start_period_number,INTEGER,условный период,YES,Номер периода начала ремонта
