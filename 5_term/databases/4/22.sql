@@ -21,7 +21,7 @@ create temporary table repair_summary (
 ) on commit drop;
 
 insert into repair_summary (route_id, repair_count, total_cost)
-select 
+select
     r.route_id,
     (select count(*) from route_repairs rp where rp.route_id = r.route_id),
     (select coalesce(sum(rp.price_rub), 0) from route_repairs rp where rp.route_id = r.route_id)

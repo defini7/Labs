@@ -15,4 +15,4 @@ where
 			o.station_to_id = r.station_to_id)
 returning order_id, canceled_at;
 
--- canceled_at будет выдавать null?
+-- canceled_at будет иметь null?
