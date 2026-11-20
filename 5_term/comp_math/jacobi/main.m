@@ -1,11 +1,11 @@
 clc;
 clear;
 
-# 1000x1000 -> 8000000 байт ~ 7.6 мбайт
+% 1000x1000 -> 8000000 байт ~ 7.6 мбайт
 
 N = 1000;
 
-rand("seed", 20);
+rng(20);
 
 x_target = rand(N, 1);
 
@@ -13,7 +13,7 @@ MAX_ITERS = 10000;
 EPSILON = 1e-10;
 
 A = rand(N);
-A += diag(sum(A, 2) * 2);
+A = A + diag(sum(A, 2) * 2);
 
 b = A * x_target;
 
@@ -40,6 +40,6 @@ end
 
 toc
 
-printf("Итераций выполнено: %d\n", i);
-printf("Относительная ошибка: %e\n", norm(x_new - x_target) / norm(x_target));
-printf("Абсолютная ошибка: %e\n", norm(x_new - x_target));
+disp("Итераций выполнено: " + i);
+disp("Относительная ошибка: " + norm(x_new - x_target) / norm(x_target));
+disp("Абсолютная ошибка: " + norm(x_new - x_target));
